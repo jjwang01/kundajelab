@@ -1,6 +1,19 @@
-import numpy as np
 import pandas as pd
+import re
 
+fo = open('gencode.vM7.annotation.gtf', 'r')
+f = fo.readlines()
+fo.close()
+f = f[25:]
+f = [line.strip() for line in f]
+gtf = pd.DataFrame(re.split(r'\t|;', line) for line in f)
+
+#gtf = gtf[gtf[1].notnull()]
+filtered_gtf = gtf[gtf[2] == 'gene']
+filtered_2_gtf = filtered_gtf[filtered_gtf[9] == ' gene_type \"protein_coding\"']
+
+print(filtered_2_gtf.head())
+"""
 # Input
 data_file = "gencode.vM7.annotation.gtf"
 
@@ -32,13 +45,15 @@ gtf = pd.read_csv(
     sep=data_file_delimiter,
     header=None,
     names=column_names,
-    skiprows=[i for i in range(25)])
+    skiprows=[i for i in range(25)],
+    engine=python)
 
 gtf = gtf[gtf['1'].notnull()]
 filtered_gtf = gtf[gtf['2'] == 'gene']
 filtered_2_gtf = filtered_gtf[filtered_gtf['9'] == 'gene_type "protein_coding"']
 
 print(filtered_2_gtf.head())
+"""
 """
 # loop through all rows
 for index, row in gtf.iterrows():
@@ -52,7 +67,7 @@ gtf['gene_id',
 	'gene_type', 
 	'others'
 	] = gtf['attributes'].str.split(';',expand=True)
-"""
+
 
 print(filtered_gtf.head())
-
+"""
