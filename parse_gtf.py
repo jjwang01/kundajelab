@@ -2,9 +2,10 @@ import os
 import gzip
 import pandas as pd
 import re
+import shutil
 
 # predefine file locations, folders
-out_dir = "/."
+out_dir = "/Users/justinwang/Desktop/kundaje/kundajelab"
 file_name = "gencode.vM7.annotation.gtf.gz"
 file_url = "ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_mouse/release_M7/gencode.vM7.annotation.gtf.gz"
 
@@ -60,3 +61,10 @@ gtf_names = set(gtf_names)
 intersect = set.intersection(gene_matrix_names, gtf_names)
 filtered_gene_matrix = gene_matrix[gene_matrix["Gene_Symbol"].isin(intersect)]
 print(filtered_gene_matrix.head())
+
+# 22032 rows
+filtered_gene_matrix.to_csv("{}/filtered_gene_matrix.csv".format(out_dir), sep="\t")
+# use gzip compress the file
+with open("{}/filtered_gene_matrix.csv".format(out_dir), 'rb') as f_in:
+    with gzip.open("{}/filtered_gene_matrix.csv.gz".format(out_dir), 'wb') as f_out:
+        shutil.copyfileobj(f_in, f_out)
