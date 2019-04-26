@@ -62,9 +62,9 @@ intersect = set.intersection(gene_matrix_names, gtf_names)
 filtered_gene_matrix = gene_matrix[gene_matrix["Gene_Symbol"].isin(intersect)]
 print(filtered_gene_matrix.head())
 
-# 22032 rows
+# should be 22032 rows, got 21541
 filtered_gene_matrix.to_csv("{}/filtered_gene_matrix.csv".format(out_dir), sep="\t")
-# use gzip compress the file
+# use gzip to compress the file
 with open("{}/filtered_gene_matrix.csv".format(out_dir), 'rb') as f_in:
     with gzip.open("{}/filtered_gene_matrix.csv.gz".format(out_dir), 'wb') as f_out:
         shutil.copyfileobj(f_in, f_out)
