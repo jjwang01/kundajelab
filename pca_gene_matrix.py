@@ -38,7 +38,7 @@ principalDf = pd.DataFrame(data = principalComponents,
 
 # TODO: label all the points separately
 # create a text file to create a color table for each cell, then map based off those colors
-"""
+
 # matplotlib
 fig = plt.figure(figsize = (8,8))
 ax = fig.add_subplot(1,1,1)
@@ -47,7 +47,6 @@ ax.set_ylabel('Principal Component 2', fontsize=15)
 ax.set_title('2 component PCA', fontsize=20)
 ax.scatter(principalDf['principal component 1'], principalDf['principal component 2'])
 ax.grid()
-"""
 
 # seaborn
 plt.figure(figsize=(16,10))
