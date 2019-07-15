@@ -37,7 +37,8 @@ principalDf = pd.DataFrame(data = principalComponents,
 	columns = ['principal component 1', 'principal component 2'])
 
 # TODO: label all the points separately
-# create a text file to create a color table for each cell, then map based off those colors
+colors = pd.read_csv('pca_colors.csv', sep='\t', )
+colors
 
 # matplotlib
 fig = plt.figure(figsize = (8,8))
