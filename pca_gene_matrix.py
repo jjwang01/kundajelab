@@ -38,6 +38,7 @@ principalDf = pd.DataFrame(data = principalComponents,
 
 # TODO: label all the points separately
 # create a text file to create a color table for each cell, then map based off those colors
+colors = np.random.random(3,10)
 """
 # matplotlib
 fig = plt.figure(figsize = (8,8))
