@@ -1,10 +1,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-import plotly.plotly as py
-import plotly.tools as tls
-import plotly.graph_objs as go
-import seaborn as sns
+import matplotlib.patches as mpatches
 from sklearn.decomposition import PCA
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
@@ -29,25 +26,32 @@ new_X = new_X.T
 
 # standard scaler normalization
 sc = StandardScaler()
-new_X = sc.fit_transform(new_X)
+scaled = sc.fit_transform(new_X)
 
 from sklearn.manifold import TSNE
-tsne_X = TSNE(n_components=2, perplexity=10).fit_transform(new_X)
-tsneDf = pd.DataFrame(data = tsne_X,
-        columns = ['1', '2'])
-plt.figure(figsize=(16,10))
-sns.scatterplot(
-	x = "1", y = "2",
-	#hue = "y",
-	#palette = sns.color_palette("hls", 10),
-	data = tsneDf,
-	legend = "full",
-	alpha = 0.3
-)
-plt.show()
+tsne_X = TSNE(n_components=2, perplexity=10).fit_transform(scaled)
+tsneDf = pd.DataFrame(index=new_X.index, data=tsne_X,
+        columns = ['principal component 1', 'principal component 2'])
+colors = pd.read_csv('pca_colors.csv', sep='\t', index_col=0)
+tsneDf['color'] = colors['color']
 
-# plotly w/ matplotlib
-"""
-plotly_fig = tls.mpl_to_plotly(fig)
-py.iplot(plotly_fig, filename = 'gene-matrix-pca')
-"""
+fig = plt.figure(figsize = (8,8))
+ax = fig.add_subplot(1,1,1)
+ax.set_xlabel('Principal Component 1', fontsize=15)
+ax.set_ylabel('Principal Component 2', fontsize=15)
+ax.set_title('t-SNE', fontsize=20)
+ax.scatter(x=tsneDf['principal component 1'], y=tsneDf['principal component 2'], c=tsneDf['color'].values.tolist())
+ax.grid()
+
+red_dot = mpatches.Patch(color='xkcd:purple', label='Stroma')
+grey_dot = mpatches.Patch(color='xkcd:grey', label='Stem')
+orange_dot = mpatches.Patch(color='xkcd:orange', label='abT')
+green_dot = mpatches.Patch(color='xkcd:green', label='ILC')
+pink_dot = mpatches.Patch(color='xkcd:hot pink', label='MF/GN')
+yellow_dot = mpatches.Patch(color='xkcd:yellow', label='B')
+blue_dot = mpatches.Patch(color='xkcd:blue', label='cdT')
+red_dot = mpatches.Patch(color='xkcd:red', label='Act T')
+black_dot = mpatches.Patch(color='xkcd:black', label='DC')
+plt.legend(handles=[red_dot, grey_dot, orange_dot, green_dot, pink_dot, yellow_dot, blue_dot, red_dot, black_dot])
+
+plt.show()
