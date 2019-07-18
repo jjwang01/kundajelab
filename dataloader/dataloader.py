@@ -29,7 +29,7 @@ def generator(chrm_name, coords):
 	for coord in coords:
 		yield oneHotEncoder(chrm_name, coord[0], coord[1])
 
-coords = [(100, 120), (300, 500), (1000, 1500)] 
-gen = generator('chr13', coords)
+coords = [(837429,847429)] 
+gen = generator('chr11', coords)
 for i in range(len(coords)):
 	print(next(gen))	 
